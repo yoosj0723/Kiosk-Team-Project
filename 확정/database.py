@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 #좌석 빈자리 유무/ 초기 자리 상태를 나타내는 딕셔너리 (True: 배정되지 않음, False: 배정됨)
 seat_status = {1: True, 2: True, 3: True, 4: True, 5: True, 6: True, 7: True, 8: True, 9: True, 10: True}
 
+
 #가격표
 def menu(a):
     if a == 0:

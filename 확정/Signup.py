@@ -5,7 +5,6 @@ import database
 import join
 
 
-
 class ReservationApp:
     
     def __init__(self):
@@ -48,7 +47,7 @@ class ReservationApp:
 
         for seat, status in database.seat_status.items():
             button_color = 'green' if status else 'red'  # 사용 가능한 좌석인 경우 녹색, 아닌 경우 빨간색
-            button = tk.Button(self.root, text=str(seat), width=10, height=2, command=lambda s=seat: self.toggle_seat(s), bg=button_color)
+            button = tk.Button(self.root, text=str(seat), width=10, height=2, command=lambda s=seat: self.passSeatN(s), bg=button_color)
             
             # 사용 불가능한 좌석인 경우 버튼을 비활성화
             if not status:
@@ -76,11 +75,11 @@ class ReservationApp:
         else:
             self.register()
             self.open_next_window()
+    def passSeatN(self, seat):
+        self.current_seat = seat
 
     def toggle_seat(self, seat):
         # self.current_seat = seat
-        # database.seat_status[self.current_seat] = not database.seat_status[seat]
-        self.current_seat = seat
         database.seat_status[self.current_seat] = not database.seat_status[seat]
         button_color = 'green' if database.seat_status[self.current_seat] else 'red'
         self.seat_buttons[self.current_seat].configure(bg=button_color)
@@ -134,6 +133,7 @@ class ReservationApp:
     def sumPrice(self):
         if self.myVar1.get() == 2:
             database.sumSales += database.menu(database.event_Value)["2h"]
+            print(1)
         elif self.myVar1.get() == 10:
             database.sumSales += database.menu(database.event_Value)["4h"]
         elif self.myVar1.get() == 20:
@@ -146,10 +146,12 @@ class ReservationApp:
             database.sumSales += database.menu(database.event_Value)["7 day"]
         else:
             database.sumSales += database.menu(database.event_Value)["30 day"]
+            print(2)
             
     def set_price(self):
             if self.myVar1.get() == 2:
                 self.payment_amount = database.menu(database.event_Value)["2h"]
+                print(3)
             elif self.myVar1.get() == 10:
                 self.payment_amount = database.menu(database.event_Value)["4h"]
             elif self.myVar1.get() == 20:
@@ -162,30 +164,89 @@ class ReservationApp:
                 self.payment_amount = database.menu(database.event_Value)["7 day"]
             else:
                 self.payment_amount = database.menu(database.event_Value)["30 day"]
+                print(4)
                 
     def payment(self, master):
         #함수
-        def button_click():
+        def button_click1():
             label_var.set("결제가 완료되었습니다.")
+            # root.quit()
+            # root.destroy()
             
+        def button_click2():
+            self.changeTransmit()
+        
         #
         root = master
         root.title("라벨과 버튼 예제")
-        root.geometry('800x600')
+        # root.geometry('800x600')
 
         label_var = tk.StringVar()
         label_var.set(f"결제 금액: {self.payment_amount}")
         label = tk.Label(root, textvariable=label_var, font=('Helvetica', 16))
         label.grid(row=0, column=0, columnspan=2, pady=20)
             
-        button1 = tk.Button(root, text="카드", command=button_click)
+        button1 = tk.Button(root, text="카드", command=button_click1)
         button1.grid(row=1, column=0, pady=10, padx=10)
 
-        button2 = tk.Button(root, text="현금", command=button_click)
+        button2 = tk.Button(root, text="현금", command=button_click2)
         button2.grid(row=1, column=1, pady=10, padx=10)
         
         root.mainloop()
+    def changeTransmit(self):
+        global row_num1, col_num1  # 전역 변수로 선언
+        row_num1 = 6
+        col_num1 = 0
+            
+        root = tk.Tk()
+        root.title('회원가입')
+        root.geometry('600x750')
+
+        tk.Label(root, text="투입하는 현금 입력 : ").grid(row=0, column=0, padx=10, pady=10)
+        tk.Label(root, text="계좌 : ").grid(row=2, column=0, padx=10, pady=10)
+        tk.Label(root, text="예금주명 : ").grid(row=4, column=0, padx=10, pady=10)
+        tk.Label(root, text="은행 : ").grid(row=6, column=0, padx=10, pady=10)
+
+        self.ent_Cash = tk.Entry(root)
+        self.ent_Cash.grid(row=0, column=1, padx=10, pady=10)
+        ent_account = tk.Entry(root)
+        ent_account.grid(row=2, column=1, padx=10, pady=10)
+        ent_accountH = tk.Entry(root)
+        ent_accountH.grid(row=4, column=1, padx=10, pady=10)
+        selected_button = tk.StringVar()
+
+        def create_buttons():
+            global row_num1, col_num1  # 전역 변수로 선언
+            banks = ['하나', 'IBK', '국민', '신한', '외환', '우리', '한국시티', '카카오', '신협', '토스']
+            for bank in banks:
+                button = tk.Checkbutton(root, text=bank, variable=selected_button, onvalue=bank, offvalue='')
+                button.grid(row=row_num1, column=col_num1, padx=5, pady=5)
+                col_num1 += 1
+                if col_num1 == 5:
+                    col_num1 = 0
+                    row_num1 += 1
+            tk.Button(root, text="Check", command=Check2).grid(row=row_num1, column=col_num1, padx=10, pady=10)
+
+        # def getBank_selection():
+        #     selected_bank = selected_button.get()
+        #     print(f"Selected Bank: {selected_bank}")
+        def Check2():
+            self.afterchange()
+        create_buttons()
 
 
-if __name__ == "__main__":
-    app = ReservationApp()
+        root.mainloop()
+        
+    def afterchange(self):
+            root = tk.Tk()
+            root.title('이체완료')
+            cash = self.ent_Cash.get()
+            change = int(cash) - self.payment_amount
+            #잔금변수 추가
+            tk.Label(root, text=f"잔금 : {change}원").grid(row=0, column=0, padx=10, pady=10)
+            tk.Label(root, text="이체완료").grid(row=1, column=0, padx=10, pady=10)
+            root.mainloop()
+        #
+
+
+ReservationApp()

@@ -1,6 +1,6 @@
 import tkinter as tk
 from Login import login
-from Signup3 import ReservationApp
+from Signup import ReservationApp
 from Manager import manager
 from Logout import logout
 
@@ -31,8 +31,9 @@ def main():
     root.geometry('600x750')
 
     ## 이미지 추가
-    image_path = r"C:\Users\in\Desktop\Kiosk\사진\mark.png"
+    image_path = 'C:\\Users\\in\\Desktop\\Kiosk\\Kiosk-Team-Project\\사진\\signature.png'
     img = tk.PhotoImage(file=image_path)
+    img = img.subsample(5, 7)
     img_label = tk.Label(root, image=img)
     img_label.grid(row=0, column=0, padx=20, pady=20, sticky="nsew", columnspan=6)
 
