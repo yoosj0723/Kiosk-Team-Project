@@ -19,12 +19,25 @@ event_Value = 1
 
 ##사용자 데이터
 user_data = {
-    '2222' : {
-        'password': '2222',
+    '12345678' : {
+        'password': '1111',
         'seat_number': 1,
-        'start_time': '2023-11-28 12:34:56.789012',
-        'end_time': '2023-11-29 12:34:56.789012'
+        'start_time': '2023-12-01 12:34:56.789012',
+        'end_time': '2023-12-31 12:34:56.789012'
+    },
+    '22222222' : {
+        'password': '1111',
+        'seat_number': 2,
+        'start_time': '2023-12-01 12:34:56.789012',
+        'end_time': '2023-12-13 12:34:56.789012'
+    },
+    '33333333' : {
+        'password': '1111',
+        'seat_number': 3,
+        'start_time': '2023-12-01 12:34:56.789012',
+        'end_time': '2023-12-15 12:34:56.789012'
     }
+    
 }
 
 # date->문자열형식으로 변환 함수
@@ -56,8 +69,8 @@ for username, user_info in user_data.items():
 sumSales = 0
 
 #블랙리스트
-black_list = {}
+black_list = {'12345678': {'warning': 0},'22222222': {'warning': 2},'33333333': {'warning': 0}}
 for username, user_info in black_list.items():
-    warnning = user_info['warnning']
+    warnning = user_info['warning']
     if warnning == 5:
         del user_data[username]

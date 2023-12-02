@@ -38,17 +38,17 @@ class ReservationApp:
         self.ent_PS.grid(row=2, column=1, padx=10, pady=10)
         print(444)
         
-        tk.Radiobutton(self.root, text=f'2시간 : {database.menu(database.event_Value)["2h"]}원', variable=self.myVar1, value=2).grid(row=8, column=1, padx=10, pady=10)
+        tk.Radiobutton(self.root, text=f'2시간 : {database.menu(database.event_Value)["2h"]}원', variable=self.myVar1, value=2, tristatevalue=2).grid(row=8, column=1, padx=10, pady=10)
         print(81)
-        tk.Radiobutton(self.root, text=f'4시간 : {database.menu(database.event_Value)["4h"]}원', variable=self.myVar1, value=10).grid(row=9, column=1, padx=10, pady=10)
+        tk.Radiobutton(self.root, text=f'4시간 : {database.menu(database.event_Value)["4h"]}원', variable=self.myVar1, value=10, tristatevalue=10).grid(row=9, column=1, padx=10, pady=10)
         print(82)
-        tk.Radiobutton(self.root, text=f'6시간 : {database.menu(database.event_Value)["6h"]}원', variable=self.myVar1, value=20).grid(row=10, column=1, padx=10, pady=10)
+        tk.Radiobutton(self.root, text=f'6시간 : {database.menu(database.event_Value)["6h"]}원', variable=self.myVar1, value=20, tristatevalue=20).grid(row=10, column=1, padx=10, pady=10)
         print(83)
-        tk.Radiobutton(self.root, text=f'12시간 : {database.menu(database.event_Value)["12h"]}원', variable=self.myVar1, value=30).grid(row=11, column=1, padx=10, pady=10)
-        tk.Radiobutton(self.root, text=f'1일 : {database.menu(database.event_Value)["1 day"]}원', variable=self.myVar1, value=40).grid(row=12, column=1, padx=10, pady=10)
-        tk.Radiobutton(self.root, text=f'7일 : {database.menu(database.event_Value)["7 day"]}원', variable=self.myVar1, value=50).grid(row=13, column=1, padx=10, pady=10)
+        tk.Radiobutton(self.root, text=f'12시간 : {database.menu(database.event_Value)["12h"]}원', variable=self.myVar1, value=30, tristatevalue=30).grid(row=11, column=1, padx=10, pady=10)
+        tk.Radiobutton(self.root, text=f'1일 : {database.menu(database.event_Value)["1 day"]}원', variable=self.myVar1, value=40, tristatevalue=40).grid(row=12, column=1, padx=10, pady=10)
+        tk.Radiobutton(self.root, text=f'7일 : {database.menu(database.event_Value)["7 day"]}원', variable=self.myVar1, value=50, tristatevalue=50).grid(row=13, column=1, padx=10, pady=10)
         print(84)
-        tk.Radiobutton(self.root, text=f'30일 : {database.menu(database.event_Value)["30 day"]}원', variable=self.myVar1, value=60).grid(row=14, column=1, padx=10, pady=10)
+        tk.Radiobutton(self.root, text=f'30일 : {database.menu(database.event_Value)["30 day"]}원', variable=self.myVar1, value=60, tristatevalue=60).grid(row=14, column=1, padx=10, pady=10)
         print(555)
         for seat, status in database.seat_status.items():
             button_color = 'green' if status else 'red'  # 사용 가능한 좌석인 경우 녹색, 아닌 경우 빨간색
@@ -262,7 +262,3 @@ class ReservationApp:
             tk.Label(root, text=f"잔금 : {change}원").grid(row=0, column=0, padx=10, pady=10)
             tk.Label(root, text="이체완료").grid(row=1, column=0, padx=10, pady=10)
             root.mainloop()
-        #
-
-
-ReservationApp()

@@ -31,7 +31,9 @@ def main():
     root.geometry('600x750')
 
     ## 이미지 추가
-    image_path = 'C:\\Users\\in\\Desktop\\Kiosk\\Kiosk-Team-Project\\사진\\signature.png'
+    # image_path = 'C:\\Users\\in\\Desktop\\Kiosk\\Kiosk-Team-Project\\사진\\signature.png'
+    # image_path = ('C:/Users/in/Desktop/Kiosk/Kiosk-Team-Project/사진/signature.png')
+    image_path = ('C:/Users/in/Desktop/Kiosk/Kiosk-Team-Project/asset/signature.png')
     img = tk.PhotoImage(file=image_path)
     img = img.subsample(5, 7)
     img_label = tk.Label(root, image=img)
