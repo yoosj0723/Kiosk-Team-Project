@@ -69,6 +69,9 @@ class ReservationApp:
         tk.Button(self.root, text="Check", command=self.check).grid(row=28, column=1, padx=10, pady=10)
 
         self.root.mainloop()
+        
+    def run(self):
+        self.root.mainloop()
 
     def check(self):
         self.toggle_seat(self.current_seat)
@@ -264,5 +267,3 @@ class ReservationApp:
             root.mainloop()
         #
 
-
-ReservationApp()
