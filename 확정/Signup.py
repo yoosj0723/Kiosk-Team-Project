@@ -7,13 +7,12 @@ import join
 
 class ReservationApp:
     
-    def __init__(self):
-        self.root = tk.Tk()
+    def __init__(self, master=None):
+        self.root = tk.Toplevel(master) if master else tk.Tk()
         self.root.title('회원가입')
         self.root.geometry('600x750')
         
-        #self.myVar1 = tk.IntVar(value=0)
-        self.myVar1 = tk.IntVar()
+        # self.myVar1 = tk.IntVar()
         
         self.seat_buttons = {}
         self.row_num = 16
@@ -25,31 +24,35 @@ class ReservationApp:
         self.create_widgets()
 
     def create_widgets(self):
-        print(222)
+        def printMy():
+            print(self.myVar1.get())
+        
+        self.myVar1 = tk.IntVar()
+        
         # id와 password, 요금제 그리고 Join 버튼의 UI를 만드는 부분
         tk.Label(self.root, text="Username : ").grid(row=0, column=0, padx=10, pady=10)
         tk.Label(self.root, text="Password : ").grid(row=2, column=0, padx=10, pady=10)
         tk.Label(self.root, text="요금제 선택 ").grid(row=8, column=0, padx=10, pady=10)
 
-        print(333)
+        
         self.ent_PHN = tk.Entry(self.root)
         self.ent_PHN.grid(row=0, column=1, padx=10, pady=10)
         self.ent_PS = tk.Entry(self.root, show='*')
         self.ent_PS.grid(row=2, column=1, padx=10, pady=10)
-        print(444)
         
-        tk.Radiobutton(self.root, text=f'2시간 : {database.menu(database.event_Value)["2h"]}원', variable=self.myVar1, value=2, tristatevalue=2).grid(row=8, column=1, padx=10, pady=10)
-        print(81)
-        tk.Radiobutton(self.root, text=f'4시간 : {database.menu(database.event_Value)["4h"]}원', variable=self.myVar1, value=10, tristatevalue=10).grid(row=9, column=1, padx=10, pady=10)
-        print(82)
-        tk.Radiobutton(self.root, text=f'6시간 : {database.menu(database.event_Value)["6h"]}원', variable=self.myVar1, value=20, tristatevalue=20).grid(row=10, column=1, padx=10, pady=10)
-        print(83)
-        tk.Radiobutton(self.root, text=f'12시간 : {database.menu(database.event_Value)["12h"]}원', variable=self.myVar1, value=30, tristatevalue=30).grid(row=11, column=1, padx=10, pady=10)
-        tk.Radiobutton(self.root, text=f'1일 : {database.menu(database.event_Value)["1 day"]}원', variable=self.myVar1, value=40, tristatevalue=40).grid(row=12, column=1, padx=10, pady=10)
-        tk.Radiobutton(self.root, text=f'7일 : {database.menu(database.event_Value)["7 day"]}원', variable=self.myVar1, value=50, tristatevalue=50).grid(row=13, column=1, padx=10, pady=10)
-        print(84)
-        tk.Radiobutton(self.root, text=f'30일 : {database.menu(database.event_Value)["30 day"]}원', variable=self.myVar1, value=60, tristatevalue=60).grid(row=14, column=1, padx=10, pady=10)
-        print(555)
+        
+        tk.Radiobutton(self.root, text=f'2시간 : {database.menu(database.event_Value)["2h"]}원', variable=self.myVar1, value=2, tristatevalue=2, command=printMy).grid(row=8, column=1, padx=10, pady=10)
+        
+        tk.Radiobutton(self.root, text=f'4시간 : {database.menu(database.event_Value)["4h"]}원', variable=self.myVar1, value=10, tristatevalue=10, command=printMy).grid(row=9, column=1, padx=10, pady=10)
+        
+        tk.Radiobutton(self.root, text=f'6시간 : {database.menu(database.event_Value)["6h"]}원', variable=self.myVar1, value=20, tristatevalue=20, command=printMy).grid(row=10, column=1, padx=10, pady=10)
+        
+        tk.Radiobutton(self.root, text=f'12시간 : {database.menu(database.event_Value)["12h"]}원', variable=self.myVar1, value=30, tristatevalue=30, command=printMy).grid(row=11, column=1, padx=10, pady=10)
+        tk.Radiobutton(self.root, text=f'1일 : {database.menu(database.event_Value)["1 day"]}원', variable=self.myVar1, value=40, tristatevalue=40, command=printMy).grid(row=12, column=1, padx=10, pady=10)
+        tk.Radiobutton(self.root, text=f'7일 : {database.menu(database.event_Value)["7 day"]}원', variable=self.myVar1, value=50, tristatevalue=50, command=printMy).grid(row=13, column=1, padx=10, pady=10)
+        
+        tk.Radiobutton(self.root, text=f'30일 : {database.menu(database.event_Value)["30 day"]}원', variable=self.myVar1, value=60, tristatevalue=60, command=printMy).grid(row=14, column=1, padx=10, pady=10)
+        
         for seat, status in database.seat_status.items():
             button_color = 'green' if status else 'red'  # 사용 가능한 좌석인 경우 녹색, 아닌 경우 빨간색
             button = tk.Button(self.root, text=str(seat), width=10, height=2, command=lambda s=seat: self.passSeatN(s), bg=button_color)
@@ -74,6 +77,8 @@ class ReservationApp:
         self.toggle_seat(self.current_seat)
         self.myTime()
         self.sumPrice()
+        print(self.myVar1.get())
+        # self.set_price()#
         phone_number = self.ent_PHN.get()
         if phone_number in database.user_data:
             messagebox.showwarning('Join', '이미 있는 아이디 입니다')
@@ -106,7 +111,7 @@ class ReservationApp:
         start_time = self.changeDateS(str(start1_time))
         end_time = self.changeDateS(str(end_time1))
         seat_number = self.current_seat
-        print(16)
+        
         
         join.join(phone_number, password, start_time, end_time, seat_number)
         
@@ -134,53 +139,53 @@ class ReservationApp:
         elif self.myVar1.get() == 50:
             return timedelta(days=7)
         else:
-            return timedelta(days=12)
+            return timedelta(days=30)
 
     def sumPrice(self):
         if self.myVar1.get() == 2:
             database.sumSales += database.menu(database.event_Value)["2h"]
-            print(1)
+            
         elif self.myVar1.get() == 10:
             database.sumSales += database.menu(database.event_Value)["4h"]
-            print(2)
+            
         elif self.myVar1.get() == 20:
             database.sumSales += database.menu(database.event_Value)["6h"]
-            print(3)
+            
         elif self.myVar1.get() == 30:
             database.sumSales += database.menu(database.event_Value)["12h"]
-            print(4)
+            
         elif self.myVar1.get() == 40:
             database.sumSales += database.menu(database.event_Value)["1 day"]
-            print(5)
+            
         elif self.myVar1.get() == 50:
             database.sumSales += database.menu(database.event_Value)["7 day"]
-            print(6)
+            
         else:
             database.sumSales += database.menu(database.event_Value)["30 day"]
-            print(7)
+            
             
     def set_price(self):
-            if self.myVar1.get() == 2:
-                self.payment_amount = database.menu(database.event_Value)["2h"]
-                print(8)
-            elif self.myVar1.get() == 10:
-                self.payment_amount = database.menu(database.event_Value)["4h"]
-                print(9)
-            elif self.myVar1.get() == 20:
-                self.payment_amount = database.menu(database.event_Value)["6h"]
-                print(11)
-            elif self.myVar1.get() == 30:
-                self.payment_amount = database.menu(database.event_Value)["12h"]
-                print(12)
-            elif self.myVar1.get() == 40:
-                self.payment_amount = database.menu(database.event_Value)["1 day"]
-                print(13)
-            elif self.myVar1.get() == 50:
-                self.payment_amount = database.menu(database.event_Value)["7 day"]
-                print(14)
-            else:
-                self.payment_amount = database.menu(database.event_Value)["30 day"]
-                print(15)
+        if self.myVar1.get() == 2:
+            self.payment_amount = database.menu(database.event_Value)["2h"]
+            
+        elif self.myVar1.get() == 10:
+            self.payment_amount = database.menu(database.event_Value)["4h"]
+            
+        elif self.myVar1.get() == 20:
+            self.payment_amount = database.menu(database.event_Value)["6h"]
+            
+        elif self.myVar1.get() == 30:
+            self.payment_amount = database.menu(database.event_Value)["12h"]
+            
+        elif self.myVar1.get() == 40:
+            self.payment_amount = database.menu(database.event_Value)["1 day"]
+            
+        elif self.myVar1.get() == 50:
+            self.payment_amount = database.menu(database.event_Value)["7 day"]
+            
+        else:
+            self.payment_amount = database.menu(database.event_Value)["30 day"]
+            
                 
     def payment(self, master):
         #함수

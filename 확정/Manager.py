@@ -35,6 +35,10 @@ def manager():
         # 'warning' 값을 +1 하는 함수
         def increment_warning(key):
             database.black_list[key]['warnning'] += 1
+            for username, user_info in database.black_list.items():
+                warnning = user_info['warnning']
+                if warnning == 5:
+                    del database.user_data[username]
             refresh_display()
 
         # 정렬된 결과를 Label로 출력하고 각 항목에 대한 버튼 추가

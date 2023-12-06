@@ -69,8 +69,8 @@ for username, user_info in user_data.items():
 sumSales = 0
 
 #블랙리스트
-black_list = {'12345678': {'warning': 0},'22222222': {'warning': 2},'33333333': {'warning': 0}}
+black_list = {}
 for username, user_info in black_list.items():
     warnning = user_info['warning']
-    if warnning == 5:
+    if warnning >= 5:
         del user_data[username]

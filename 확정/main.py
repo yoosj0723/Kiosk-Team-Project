@@ -10,7 +10,7 @@ def main():
 
 
     def button_clicked1():
-        ReservationApp()
+        ReservationApp(master=root)
 
 
     def button_clicked2():
